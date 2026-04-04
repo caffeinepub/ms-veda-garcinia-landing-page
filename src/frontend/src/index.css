@@ -1,0 +1,183 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --radius: 0.625rem;
+    --brand-dark: 0.178 0.038 155;
+    --brand-darker: 0.145 0.028 155;
+    --brand-green: 0.52 0.115 140;
+    --brand-green-light: 0.62 0.12 140;
+    --brand-green-pale: 0.86 0.03 155;
+    --brand-amber: 0.68 0.148 65;
+    --brand-amber-light: 0.76 0.16 70;
+    --brand-gold: 0.73 0.1 80;
+    --brand-star: 0.83 0.16 88;
+    --background: 1 0 0;
+    --foreground: 0.145 0 0;
+    --card: 1 0 0;
+    --card-foreground: 0.145 0 0;
+    --popover: 1 0 0;
+    --popover-foreground: 0.145 0 0;
+    --primary: 0.52 0.115 140;
+    --primary-foreground: 1 0 0;
+    --secondary: 0.86 0.03 155;
+    --secondary-foreground: 0.178 0.038 155;
+    --muted: 0.95 0 0;
+    --muted-foreground: 0.556 0 0;
+    --accent: 0.86 0.03 155;
+    --accent-foreground: 0.178 0.038 155;
+    --destructive: 0.577 0.245 27.325;
+    --destructive-foreground: 0.985 0 0;
+    --border: 0.922 0 0;
+    --input: 0.922 0 0;
+    --ring: 0.52 0.115 140;
+    --chart-1: 0.646 0.222 41.116;
+    --chart-2: 0.6 0.118 184.704;
+    --chart-3: 0.398 0.07 227.392;
+    --chart-4: 0.828 0.189 84.429;
+    --chart-5: 0.769 0.188 70.08;
+    --sidebar: 0.985 0 0;
+    --sidebar-foreground: 0.145 0 0;
+    --sidebar-primary: 0.52 0.115 140;
+    --sidebar-primary-foreground: 1 0 0;
+    --sidebar-accent: 0.97 0 0;
+    --sidebar-accent-foreground: 0.205 0 0;
+    --sidebar-border: 0.922 0 0;
+    --sidebar-ring: 0.708 0 0;
+  }
+
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: "Poppins", sans-serif;
+    scroll-behavior: smooth;
+  }
+}
+
+@layer utilities {
+  .bg-brand-dark {
+    background-color: oklch(var(--brand-dark));
+  }
+  .bg-brand-darker {
+    background-color: oklch(var(--brand-darker));
+  }
+  .bg-brand-green {
+    background-color: oklch(var(--brand-green));
+  }
+  .bg-brand-green-light {
+    background-color: oklch(var(--brand-green-light));
+  }
+  .bg-brand-green-pale {
+    background-color: oklch(var(--brand-green-pale));
+  }
+  .bg-brand-amber {
+    background-color: oklch(var(--brand-amber));
+  }
+
+  .text-brand-dark {
+    color: oklch(var(--brand-dark));
+  }
+  .text-brand-green {
+    color: oklch(var(--brand-green));
+  }
+  .text-brand-amber {
+    color: oklch(var(--brand-amber));
+  }
+  .text-brand-gold {
+    color: oklch(var(--brand-gold));
+  }
+  .text-brand-star {
+    color: oklch(var(--brand-star));
+  }
+
+  .border-brand-green {
+    border-color: oklch(var(--brand-green));
+  }
+
+  .pulse-red {
+    animation: pulseRed 1.5s ease-in-out infinite;
+  }
+  @keyframes pulseRed {
+    0%,
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.7;
+      transform: scale(1.05);
+    }
+  }
+
+  .countdown-glow {
+    text-shadow: 0 0 20px oklch(var(--brand-amber) / 0.6);
+  }
+
+  .gradient-hero {
+    background: linear-gradient(
+      135deg,
+      oklch(0.145 0.028 155) 0%,
+      oklch(0.178 0.038 155) 60%,
+      oklch(0.22 0.06 140) 100%
+    );
+  }
+  .gradient-offer {
+    background: linear-gradient(
+      135deg,
+      oklch(0.145 0.028 155) 0%,
+      oklch(0.178 0.038 155) 100%
+    );
+  }
+
+  .btn-amber {
+    background: linear-gradient(
+      135deg,
+      oklch(var(--brand-amber)) 0%,
+      oklch(var(--brand-amber-light)) 100%
+    );
+    color: white;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .btn-amber:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px oklch(var(--brand-amber) / 0.4);
+  }
+  .btn-amber:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .btn-green {
+    background: linear-gradient(
+      135deg,
+      oklch(var(--brand-green)) 0%,
+      oklch(var(--brand-green-light)) 100%
+    );
+    color: white;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .btn-green:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px oklch(var(--brand-green) / 0.4);
+  }
+
+  .shadow-amber {
+    box-shadow: 0 8px 32px -4px oklch(0.68 0.148 65 / 0.35);
+  }
+  .shadow-green {
+    box-shadow: 0 8px 32px -4px oklch(0.52 0.115 140 / 0.35);
+  }
+}
