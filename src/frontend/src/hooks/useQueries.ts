@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { OrderInput } from "../backend.d.ts";
+import { createActorWithConfig } from "../config";
 import { useActor } from "./useActor";
 
 export function useTotalOrderCount() {
@@ -20,9 +21,21 @@ export function useSubmitOrder() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (input: OrderInput): Promise<bigint> => {
-      if (!actor) throw new Error("Actor not ready");
-      return actor.submitOrder(input);
+      // Use existing actor or create a fresh anonymous one
+      let activeActor = actor;
+      if (!activeActor) {
+        try {
+          activeActor = await createActorWithConfig();
+        } catch {
+          throw new Error(
+            "Unable to connect. Please check your internet connection and try again.",
+          );
+        }
+      }
+      return activeActor.submitOrder(input);
     },
+    retry: 2,
+    retryDelay: 1000,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["totalOrderCount"] });
     },

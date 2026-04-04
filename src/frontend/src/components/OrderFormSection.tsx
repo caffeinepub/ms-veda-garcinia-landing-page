@@ -4,17 +4,22 @@ import { Textarea } from "@/components/ui/textarea";
 import { CheckCircle, Loader2, Package } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
-import { useSubmitOrder, useTotalOrderCount } from "../hooks/useQueries";
 
 const GOOGLE_SHEET_URL =
   "https://script.google.com/macros/s/AKfycbxPai-wTWBJU10QQVjrlyjxy_MeKbDdR954rv-R6XIywVSNF3MSnIA-1CbNv0v6r0t5_A/exec";
+
+function generateOrderId(): string {
+  const timestamp = Date.now().toString(36).toUpperCase();
+  const random = Math.random().toString(36).substring(2, 6).toUpperCase();
+  return `ORD-${timestamp}-${random}`;
+}
 
 async function sendToGoogleSheet(data: {
   orderId: string;
   name: string;
   phone: string;
   address: string;
-}) {
+}): Promise<boolean> {
   try {
     const params = new URLSearchParams({
       orderId: data.orderId,
@@ -26,8 +31,9 @@ async function sendToGoogleSheet(data: {
       method: "GET",
       mode: "no-cors",
     });
+    return true;
   } catch {
-    // Silently fail — main order is already saved in backend
+    return false;
   }
 }
 
@@ -35,15 +41,13 @@ export function OrderFormSection() {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
-  const [orderId, setOrderId] = useState<bigint | null>(null);
+  const [orderId, setOrderId] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<{
     name?: string;
     phone?: string;
     address?: string;
   }>({});
-
-  const { data: totalCount } = useTotalOrderCount();
-  const submitOrder = useSubmitOrder();
 
   const validate = () => {
     const newErrors: { name?: string; phone?: string; address?: string } = {};
@@ -59,29 +63,26 @@ export function OrderFormSection() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) return;
+    setIsSubmitting(true);
     try {
-      const id = await submitOrder.mutateAsync({
-        name: name.trim(),
-        phone: phone.trim(),
-        address: address.trim(),
-      });
-      const idStr = (id as bigint).toString();
-      setOrderId(id as bigint);
+      const newOrderId = generateOrderId();
 
-      // Send to Google Sheet in background (non-blocking)
-      sendToGoogleSheet({
-        orderId: idStr,
+      // Send to Google Sheet — primary action
+      await sendToGoogleSheet({
+        orderId: newOrderId,
         name: name.trim(),
         phone: phone.trim(),
         address: address.trim(),
       });
 
+      setOrderId(newOrderId);
       toast.success("Order placed successfully! 🎉", {
-        description: `Order ID: #${idStr}`,
+        description: `Order ID: #${newOrderId}`,
       });
-    } catch (err) {
-      console.error("Order submission error:", err);
+    } catch {
       toast.error("Something went wrong. Please try again.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -114,7 +115,7 @@ export function OrderFormSection() {
                 className="text-2xl font-black"
                 style={{ color: "oklch(0.76 0.16 70)" }}
               >
-                #{orderId.toString()}
+                #{orderId}
               </p>
             </div>
             <p className="text-white/60 text-sm mb-6">
@@ -145,18 +146,6 @@ export function OrderFormSection() {
           >
             Place Your Order Now 📦
           </h2>
-          {totalCount !== undefined && (
-            <p className="text-gray-500 text-base">
-              Join{" "}
-              <span
-                className="font-bold"
-                style={{ color: "oklch(0.52 0.115 140)" }}
-              >
-                {(Number(totalCount) + 10247).toLocaleString("en-IN")}
-              </span>{" "}
-              happy customers!
-            </p>
-          )}
         </div>
 
         {/* Two-column layout: image left, form right */}
@@ -295,11 +284,11 @@ export function OrderFormSection() {
               </div>
               <button
                 type="submit"
-                disabled={submitOrder.isPending}
+                disabled={isSubmitting}
                 className="btn-amber w-full py-4 rounded-xl text-lg font-bold flex items-center justify-center gap-2"
                 data-ocid="order.submit_button"
               >
-                {submitOrder.isPending ? (
+                {isSubmitting ? (
                   <>
                     <Loader2 className="w-5 h-5 animate-spin" /> Placing Order…
                   </>
