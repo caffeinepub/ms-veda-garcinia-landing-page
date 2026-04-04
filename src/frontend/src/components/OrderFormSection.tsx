@@ -7,7 +7,7 @@ import { toast } from "sonner";
 import { useSubmitOrder, useTotalOrderCount } from "../hooks/useQueries";
 
 const GOOGLE_SHEET_URL =
-  "https://script.google.com/macros/s/AKfycbzdh7qrFU_AI6oGv_rZCfgc7ReuFFRzGdwB09vVos1lk9_9Nmw5cXWPkcz0v0K8tNW9/exec";
+  "https://script.google.com/macros/s/AKfycbxPai-wTWBJU10QQVjrlyjxy_MeKbDdR954rv-R6XIywVSNF3MSnIA-1CbNv0v6r0t5_A/exec";
 
 async function sendToGoogleSheet(data: {
   orderId: string;
@@ -16,11 +16,15 @@ async function sendToGoogleSheet(data: {
   address: string;
 }) {
   try {
-    await fetch(GOOGLE_SHEET_URL, {
-      method: "POST",
+    const params = new URLSearchParams({
+      orderId: data.orderId,
+      name: data.name,
+      phone: data.phone,
+      address: data.address,
+    });
+    await fetch(`${GOOGLE_SHEET_URL}?${params.toString()}`, {
+      method: "GET",
       mode: "no-cors",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
     });
   } catch {
     // Silently fail — main order is already saved in backend
@@ -64,7 +68,7 @@ export function OrderFormSection() {
       const idStr = (id as bigint).toString();
       setOrderId(id as bigint);
 
-      // Send to Google Sheet in background
+      // Send to Google Sheet in background (non-blocking)
       sendToGoogleSheet({
         orderId: idStr,
         name: name.trim(),
@@ -75,7 +79,8 @@ export function OrderFormSection() {
       toast.success("Order placed successfully! 🎉", {
         description: `Order ID: #${idStr}`,
       });
-    } catch {
+    } catch (err) {
+      console.error("Order submission error:", err);
       toast.error("Something went wrong. Please try again.");
     }
   };
