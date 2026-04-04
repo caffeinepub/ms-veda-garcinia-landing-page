@@ -80,14 +80,6 @@ export function Footer() {
                 <Phone className="w-4 h-4" />
                 <span className="text-sm">+91 8447829877</span>
               </a>
-              <a
-                href="https://wa.me/918447829877"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 text-green-400 hover:text-green-300 text-sm transition-colors"
-              >
-                💬 WhatsApp: +91 8447829877
-              </a>
             </div>
           </div>
         </div>

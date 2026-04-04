@@ -15,7 +15,6 @@ import { SolutionSection } from "./components/SolutionSection";
 import { StickyOrderCTA } from "./components/StickyOrderCTA";
 import { TestimonialsSection } from "./components/TestimonialsSection";
 import { TrustSection } from "./components/TrustSection";
-import { WhatsAppButton } from "./components/WhatsAppButton";
 
 export default function App() {
   const [showStickyCTA, setShowStickyCTA] = useState(false);
@@ -59,7 +58,6 @@ export default function App() {
         <FAQSection />
       </main>
       <Footer />
-      <WhatsAppButton />
       {showStickyCTA && <StickyOrderCTA />}
       {showExitPopup && (
         <ExitIntentPopup onClose={() => setShowExitPopup(false)} />

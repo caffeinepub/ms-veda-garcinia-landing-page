@@ -105,15 +105,6 @@ export function HeroSection() {
             >
               🛒 Order Now – ₹999 Only
             </button>
-            <a
-              href="https://wa.me/918447829877"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 border-2 border-white/30 text-white py-4 px-8 rounded-full text-sm font-semibold hover:border-white/60 transition-colors"
-              data-ocid="hero.secondary_button"
-            >
-              💬 WhatsApp Us
-            </a>
           </div>
 
           <div className="flex items-center gap-3 justify-center">

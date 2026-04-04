@@ -6,6 +6,27 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { useSubmitOrder, useTotalOrderCount } from "../hooks/useQueries";
 
+const GOOGLE_SHEET_URL =
+  "https://script.google.com/macros/s/AKfycbzdh7qrFU_AI6oGv_rZCfgc7ReuFFRzGdwB09vVos1lk9_9Nmw5cXWPkcz0v0K8tNW9/exec";
+
+async function sendToGoogleSheet(data: {
+  orderId: string;
+  name: string;
+  phone: string;
+  address: string;
+}) {
+  try {
+    await fetch(GOOGLE_SHEET_URL, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+  } catch {
+    // Silently fail — main order is already saved in backend
+  }
+}
+
 export function OrderFormSection() {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -40,12 +61,22 @@ export function OrderFormSection() {
         phone: phone.trim(),
         address: address.trim(),
       });
+      const idStr = (id as bigint).toString();
       setOrderId(id as bigint);
+
+      // Send to Google Sheet in background
+      sendToGoogleSheet({
+        orderId: idStr,
+        name: name.trim(),
+        phone: phone.trim(),
+        address: address.trim(),
+      });
+
       toast.success("Order placed successfully! 🎉", {
-        description: `Order ID: #${(id as bigint).toString()}`,
+        description: `Order ID: #${idStr}`,
       });
     } catch {
-      toast.error("Something went wrong. Please try again or WhatsApp us.");
+      toast.error("Something went wrong. Please try again.");
     }
   };
 
@@ -82,15 +113,13 @@ export function OrderFormSection() {
               </p>
             </div>
             <p className="text-white/60 text-sm mb-6">
-              📦 3-5 business days mein delivery. WhatsApp par message karein.
+              📦 3-5 business days mein delivery ho jaayegi.
             </p>
             <a
-              href="https://wa.me/918447829877"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="tel:+918447829877"
               className="inline-block btn-green py-3 px-8 rounded-full text-sm font-bold"
             >
-              💬 WhatsApp Us for Updates
+              📞 Call Us for Updates
             </a>
           </div>
         </div>
@@ -100,7 +129,7 @@ export function OrderFormSection() {
 
   return (
     <section id="order-form" className="bg-brand-green-pale py-16 lg:py-24">
-      <div className="max-w-xl mx-auto px-4 sm:px-6">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="text-center mb-10">
           <span className="inline-block bg-green-100 text-green-800 text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full mb-4">
             Secure Order
@@ -124,140 +153,165 @@ export function OrderFormSection() {
             </p>
           )}
         </div>
-        <div
-          className="flex items-center justify-between rounded-2xl px-6 py-4 mb-8 text-white"
-          style={{ background: "oklch(0.178 0.038 155)" }}
-        >
-          <div>
-            <p className="text-white/60 text-xs uppercase tracking-wider mb-1">
-              Total Amount
-            </p>
-            <div className="flex items-center gap-3">
-              <span className="text-white/40 line-through text-sm">₹1,999</span>
-              <span
-                className="text-2xl font-black"
-                style={{ color: "oklch(0.76 0.16 70)" }}
-              >
-                ₹999
-              </span>
+
+        {/* Two-column layout: image left, form right */}
+        <div className="flex flex-col lg:flex-row gap-8 items-stretch">
+          {/* Image column — 50% width on desktop */}
+          <div className="w-full lg:w-1/2 flex-shrink-0">
+            <div
+              className="h-full rounded-3xl overflow-hidden shadow-xl"
+              style={{ minHeight: "400px" }}
+            >
+              <img
+                src="/assets/chatgpt_image_apr_4_2026_04_42_13_pm-019d5833-9b90-729e-8dbf-894e65ee6fdf.png"
+                alt="MS Veda Garcinia Cambogia"
+                className="w-full h-full object-cover"
+                style={{ minHeight: "400px" }}
+              />
             </div>
           </div>
-          <div className="text-right">
-            <span
-              className="inline-block text-xs font-bold px-3 py-1 rounded-full text-white"
-              style={{ background: "oklch(0.65 0.2 30)" }}
+
+          {/* Form column — 50% width on desktop */}
+          <div className="w-full lg:w-1/2">
+            <div
+              className="flex items-center justify-between rounded-2xl px-6 py-4 mb-8 text-white"
+              style={{ background: "oklch(0.178 0.038 155)" }}
             >
-              50% OFF
-            </span>
-            <p className="text-white/60 text-xs mt-1">Buy 1 Get 1 Free</p>
+              <div>
+                <p className="text-white/60 text-xs uppercase tracking-wider mb-1">
+                  Total Amount
+                </p>
+                <div className="flex items-center gap-3">
+                  <span className="text-white/40 line-through text-sm">
+                    ₹1,999
+                  </span>
+                  <span
+                    className="text-2xl font-black"
+                    style={{ color: "oklch(0.76 0.16 70)" }}
+                  >
+                    ₹999
+                  </span>
+                </div>
+              </div>
+              <div className="text-right">
+                <span
+                  className="inline-block text-xs font-bold px-3 py-1 rounded-full text-white"
+                  style={{ background: "oklch(0.65 0.2 30)" }}
+                >
+                  50% OFF
+                </span>
+                <p className="text-white/60 text-xs mt-1">Buy 1 Get 1 Free</p>
+              </div>
+            </div>
+
+            <form
+              onSubmit={handleSubmit}
+              noValidate
+              className="space-y-5"
+              data-ocid="order.modal"
+            >
+              <div>
+                <Label
+                  htmlFor="order-name"
+                  className="text-gray-700 font-semibold mb-1.5 block"
+                >
+                  Full Name *
+                </Label>
+                <Input
+                  id="order-name"
+                  type="text"
+                  placeholder="Apna poora naam likhein"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="h-12 text-base rounded-xl"
+                  autoComplete="name"
+                  data-ocid="order.input"
+                />
+                {errors.name && (
+                  <p
+                    className="text-red-500 text-xs mt-1"
+                    data-ocid="order.error_state"
+                  >
+                    {errors.name}
+                  </p>
+                )}
+              </div>
+              <div>
+                <Label
+                  htmlFor="order-phone"
+                  className="text-gray-700 font-semibold mb-1.5 block"
+                >
+                  Phone Number * (10 digits)
+                </Label>
+                <Input
+                  id="order-phone"
+                  type="tel"
+                  placeholder="10-digit mobile number"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  className="h-12 text-base rounded-xl"
+                  autoComplete="tel"
+                  maxLength={10}
+                  data-ocid="order.input"
+                />
+                {errors.phone && (
+                  <p
+                    className="text-red-500 text-xs mt-1"
+                    data-ocid="order.error_state"
+                  >
+                    {errors.phone}
+                  </p>
+                )}
+              </div>
+              <div>
+                <Label
+                  htmlFor="order-address"
+                  className="text-gray-700 font-semibold mb-1.5 block"
+                >
+                  Complete Address * (including city &amp; pincode)
+                </Label>
+                <Textarea
+                  id="order-address"
+                  placeholder="Ghar ka address, city, state aur pincode likhein"
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
+                  className="text-base rounded-xl min-h-[100px]"
+                  autoComplete="street-address"
+                  data-ocid="order.textarea"
+                />
+                {errors.address && (
+                  <p
+                    className="text-red-500 text-xs mt-1"
+                    data-ocid="order.error_state"
+                  >
+                    {errors.address}
+                  </p>
+                )}
+              </div>
+              <button
+                type="submit"
+                disabled={submitOrder.isPending}
+                className="btn-amber w-full py-4 rounded-xl text-lg font-bold flex items-center justify-center gap-2"
+                data-ocid="order.submit_button"
+              >
+                {submitOrder.isPending ? (
+                  <>
+                    <Loader2 className="w-5 h-5 animate-spin" /> Placing Order…
+                  </>
+                ) : (
+                  "🛒 Place Order Now – ₹999 Only"
+                )}
+              </button>
+              <div className="flex items-start gap-3 bg-green-50 rounded-xl p-4">
+                <Package className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
+                <p className="text-green-800 text-xs leading-relaxed">
+                  🔒 Your information is safe. Get 10% extra discount on online
+                  payment.
+                </p>
+              </div>
+            </form>
           </div>
         </div>
-        <form
-          onSubmit={handleSubmit}
-          noValidate
-          className="space-y-5"
-          data-ocid="order.modal"
-        >
-          <div>
-            <Label
-              htmlFor="order-name"
-              className="text-gray-700 font-semibold mb-1.5 block"
-            >
-              Full Name *
-            </Label>
-            <Input
-              id="order-name"
-              type="text"
-              placeholder="Apna poora naam likhein"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="h-12 text-base rounded-xl"
-              autoComplete="name"
-              data-ocid="order.input"
-            />
-            {errors.name && (
-              <p
-                className="text-red-500 text-xs mt-1"
-                data-ocid="order.error_state"
-              >
-                {errors.name}
-              </p>
-            )}
-          </div>
-          <div>
-            <Label
-              htmlFor="order-phone"
-              className="text-gray-700 font-semibold mb-1.5 block"
-            >
-              Phone Number * (10 digits)
-            </Label>
-            <Input
-              id="order-phone"
-              type="tel"
-              placeholder="10-digit mobile number"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              className="h-12 text-base rounded-xl"
-              autoComplete="tel"
-              maxLength={10}
-              data-ocid="order.input"
-            />
-            {errors.phone && (
-              <p
-                className="text-red-500 text-xs mt-1"
-                data-ocid="order.error_state"
-              >
-                {errors.phone}
-              </p>
-            )}
-          </div>
-          <div>
-            <Label
-              htmlFor="order-address"
-              className="text-gray-700 font-semibold mb-1.5 block"
-            >
-              Complete Address * (including city & pincode)
-            </Label>
-            <Textarea
-              id="order-address"
-              placeholder="Ghar ka address, city, state aur pincode likhein"
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
-              className="text-base rounded-xl min-h-[100px]"
-              autoComplete="street-address"
-              data-ocid="order.textarea"
-            />
-            {errors.address && (
-              <p
-                className="text-red-500 text-xs mt-1"
-                data-ocid="order.error_state"
-              >
-                {errors.address}
-              </p>
-            )}
-          </div>
-          <button
-            type="submit"
-            disabled={submitOrder.isPending}
-            className="btn-amber w-full py-4 rounded-xl text-lg font-bold flex items-center justify-center gap-2"
-            data-ocid="order.submit_button"
-          >
-            {submitOrder.isPending ? (
-              <>
-                <Loader2 className="w-5 h-5 animate-spin" /> Placing Order…
-              </>
-            ) : (
-              "🛒 Place Order Now – ₹999 Only"
-            )}
-          </button>
-          <div className="flex items-start gap-3 bg-green-50 rounded-xl p-4">
-            <Package className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
-            <p className="text-green-800 text-xs leading-relaxed">
-              🔒 Your information is safe. Get 10% extra discount on online
-              payment.
-            </p>
-          </div>
-        </form>
       </div>
     </section>
   );

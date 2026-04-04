@@ -24,7 +24,7 @@ const faqs = [
   },
   {
     q: "Delivery kab tak aayegi?",
-    a: "Order place karne ke 3-5 business days mein delivery ho jaati hai pan India. Express delivery bhi available hai. COD (Cash on Delivery) aur online payment dono options available hain. Delivery update ke liye WhatsApp par message karein.",
+    a: "Order place karne ke 3-5 business days mein delivery ho jaati hai pan India. Express delivery bhi available hai. COD (Cash on Delivery) aur online payment dono options available hain.",
   },
 ];
 
@@ -76,19 +76,17 @@ export function FAQSection() {
             className="font-bold text-lg mb-2"
             style={{ color: "oklch(0.178 0.038 155)" }}
           >
-            Aur koi sawaal hai? 💬
+            Aur koi sawaal hai? 📞
           </p>
           <p className="text-gray-600 text-sm mb-4">
-            Humare expert se WhatsApp par baat karein – free consultation!
+            Humare expert se phone par baat karein – free consultation!
           </p>
           <a
-            href="https://wa.me/918447829877"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="tel:+918447829877"
             className="inline-block btn-green py-3 px-8 rounded-full text-sm font-bold"
             data-ocid="faq.primary_button"
           >
-            💬 WhatsApp Us Now
+            📞 Call Us Now
           </a>
         </div>
       </div>
