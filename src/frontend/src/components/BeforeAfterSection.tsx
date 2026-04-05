@@ -6,7 +6,8 @@ const transformations = [
     duration: "7 weeks",
     before: "68 kg",
     after: "60 kg",
-    extraImage: null,
+    extraImage:
+      "/assets/chatgpt_image_apr_5_2026_10_44_33_am-019d5c12-c4c9-7265-bded-828b308f0bc6.png",
   },
   {
     name: "Rahul M.",
