@@ -27,7 +27,7 @@ const transformations = [
     before: "72 kg",
     after: "66 kg",
     extraImage:
-      "/assets/chatgpt_image_apr_5_2026_10_22_36_am-019d5bfd-a2c2-771e-8d80-b27b3142412c.png",
+      "/assets/chatgpt_image_apr_4_2026_05_36_27_pm-019d5c43-17fe-71db-9bcb-35fe657534de.png",
   },
 ];
 
