@@ -157,7 +157,7 @@ export function OrderFormSection() {
               style={{ minHeight: "400px" }}
             >
               <img
-                src="/assets/chatgpt_image_apr_4_2026_04_42_13_pm-019d5833-9b90-729e-8dbf-894e65ee6fdf.png"
+                src="/assets/order-section-image.jpeg"
                 alt="MS Veda Garcinia Cambogia"
                 className="w-full h-full object-cover"
                 style={{ minHeight: "400px" }}
@@ -204,84 +204,124 @@ export function OrderFormSection() {
               className="space-y-5"
               data-ocid="order.modal"
             >
-              <div>
-                <Label
-                  htmlFor="order-name"
-                  className="text-gray-700 font-semibold mb-1.5 block"
+              {/* Highlighted form fields wrapper */}
+              <div
+                className="rounded-2xl p-5 space-y-5"
+                style={{
+                  background:
+                    "linear-gradient(135deg, oklch(0.97 0.04 155 / 0.6), oklch(0.96 0.05 70 / 0.4))",
+                  border: "2px solid oklch(0.55 0.18 155 / 0.5)",
+                  boxShadow:
+                    "0 0 24px oklch(0.55 0.18 155 / 0.18), 0 4px 16px rgba(0,0,0,0.08)",
+                }}
+              >
+                <p
+                  className="text-center text-xs font-bold uppercase tracking-widest"
+                  style={{ color: "oklch(0.38 0.14 155)" }}
                 >
-                  Full Name *
-                </Label>
-                <Input
-                  id="order-name"
-                  type="text"
-                  placeholder="Apna poora naam likhein"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className="h-12 text-base rounded-xl"
-                  autoComplete="name"
-                  data-ocid="order.input"
-                />
-                {errors.name && (
-                  <p
-                    className="text-red-500 text-xs mt-1"
-                    data-ocid="order.error_state"
+                  ✍️ अपनी जानकारी भरें — सिर्फ 30 सेकंड!
+                </p>
+
+                <div>
+                  <Label
+                    htmlFor="order-name"
+                    className="font-bold mb-1.5 block"
+                    style={{ color: "oklch(0.28 0.1 155)" }}
                   >
-                    {errors.name}
-                  </p>
-                )}
-              </div>
-              <div>
-                <Label
-                  htmlFor="order-phone"
-                  className="text-gray-700 font-semibold mb-1.5 block"
-                >
-                  Phone Number * (10 digits)
-                </Label>
-                <Input
-                  id="order-phone"
-                  type="tel"
-                  placeholder="10-digit mobile number"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  className="h-12 text-base rounded-xl"
-                  autoComplete="tel"
-                  maxLength={10}
-                  data-ocid="order.input"
-                />
-                {errors.phone && (
-                  <p
-                    className="text-red-500 text-xs mt-1"
-                    data-ocid="order.error_state"
+                    👤 Full Name *
+                  </Label>
+                  <Input
+                    id="order-name"
+                    type="text"
+                    placeholder="Apna poora naam likhein"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className="h-12 text-base rounded-xl font-medium"
+                    style={{
+                      border: "2px solid oklch(0.55 0.18 155 / 0.6)",
+                      background: "white",
+                      boxShadow: "0 2px 8px oklch(0.55 0.18 155 / 0.12)",
+                    }}
+                    autoComplete="name"
+                    data-ocid="order.input"
+                  />
+                  {errors.name && (
+                    <p
+                      className="text-red-500 text-xs mt-1"
+                      data-ocid="order.error_state"
+                    >
+                      {errors.name}
+                    </p>
+                  )}
+                </div>
+
+                <div>
+                  <Label
+                    htmlFor="order-phone"
+                    className="font-bold mb-1.5 block"
+                    style={{ color: "oklch(0.28 0.1 155)" }}
                   >
-                    {errors.phone}
-                  </p>
-                )}
-              </div>
-              <div>
-                <Label
-                  htmlFor="order-address"
-                  className="text-gray-700 font-semibold mb-1.5 block"
-                >
-                  Complete Address * (including city &amp; pincode)
-                </Label>
-                <Textarea
-                  id="order-address"
-                  placeholder="Ghar ka address, city, state aur pincode likhein"
-                  value={address}
-                  onChange={(e) => setAddress(e.target.value)}
-                  className="text-base rounded-xl min-h-[100px]"
-                  autoComplete="street-address"
-                  data-ocid="order.textarea"
-                />
-                {errors.address && (
-                  <p
-                    className="text-red-500 text-xs mt-1"
-                    data-ocid="order.error_state"
+                    📱 Phone Number * (10 digits)
+                  </Label>
+                  <Input
+                    id="order-phone"
+                    type="tel"
+                    placeholder="10-digit mobile number"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    className="h-12 text-base rounded-xl font-medium"
+                    style={{
+                      border: "2px solid oklch(0.55 0.18 155 / 0.6)",
+                      background: "white",
+                      boxShadow: "0 2px 8px oklch(0.55 0.18 155 / 0.12)",
+                    }}
+                    autoComplete="tel"
+                    maxLength={10}
+                    data-ocid="order.input"
+                  />
+                  {errors.phone && (
+                    <p
+                      className="text-red-500 text-xs mt-1"
+                      data-ocid="order.error_state"
+                    >
+                      {errors.phone}
+                    </p>
+                  )}
+                </div>
+
+                <div>
+                  <Label
+                    htmlFor="order-address"
+                    className="font-bold mb-1.5 block"
+                    style={{ color: "oklch(0.28 0.1 155)" }}
                   >
-                    {errors.address}
-                  </p>
-                )}
+                    🏠 Complete Address * (including city &amp; pincode)
+                  </Label>
+                  <Textarea
+                    id="order-address"
+                    placeholder="Ghar ka address, city, state aur pincode likhein"
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
+                    className="text-base rounded-xl min-h-[100px] font-medium"
+                    style={{
+                      border: "2px solid oklch(0.55 0.18 155 / 0.6)",
+                      background: "white",
+                      boxShadow: "0 2px 8px oklch(0.55 0.18 155 / 0.12)",
+                    }}
+                    autoComplete="street-address"
+                    data-ocid="order.textarea"
+                  />
+                  {errors.address && (
+                    <p
+                      className="text-red-500 text-xs mt-1"
+                      data-ocid="order.error_state"
+                    >
+                      {errors.address}
+                    </p>
+                  )}
+                </div>
               </div>
+
               <button
                 type="submit"
                 disabled={isSubmitting}
