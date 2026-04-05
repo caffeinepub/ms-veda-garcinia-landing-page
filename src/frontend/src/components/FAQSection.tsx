@@ -68,27 +68,6 @@ export function FAQSection() {
             </AccordionItem>
           ))}
         </Accordion>
-        <div
-          className="mt-10 text-center rounded-2xl p-8"
-          style={{ background: "oklch(0.95 0.03 140)" }}
-        >
-          <p
-            className="font-bold text-lg mb-2"
-            style={{ color: "oklch(0.178 0.038 155)" }}
-          >
-            Aur koi sawaal hai? 📞
-          </p>
-          <p className="text-gray-600 text-sm mb-4">
-            Humare expert se phone par baat karein – free consultation!
-          </p>
-          <a
-            href="tel:+918447829877"
-            className="inline-block btn-green py-3 px-8 rounded-full text-sm font-bold"
-            data-ocid="faq.primary_button"
-          >
-            📞 Call Us Now
-          </a>
-        </div>
       </div>
     </section>
   );

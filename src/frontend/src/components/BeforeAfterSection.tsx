@@ -17,7 +17,7 @@ const transformations = [
     before: "88 kg",
     after: "80 kg",
     extraImage:
-      "/assets/chatgpt_image_apr_4_2026_03_30_39_pm-019d57f0-a605-77d9-a264-a01833148d92.png",
+      "/assets/chatgpt_image_apr_4_2026_05_36_27_pm-019d5c1d-719b-7796-9698-38981adecfce.png",
   },
   {
     name: "Anjali K.",
@@ -57,13 +57,6 @@ export function BeforeAfterSection() {
             Yeh koi filters nahi hain – yeh asli results hain hamare customers
             ke
           </p>
-        </div>
-        <div className="rounded-3xl overflow-hidden mb-10 shadow-2xl border border-white/10">
-          <img
-            src="/assets/generated/before-after-1.dim_800x500.jpg"
-            alt="Weight loss transformation"
-            className="w-full h-64 sm:h-80 object-cover"
-          />
         </div>
         <div className="grid md:grid-cols-3 gap-6 mb-10">
           {transformations.map((t) => (
