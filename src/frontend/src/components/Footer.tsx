@@ -1,4 +1,4 @@
-import { Leaf, Phone } from "lucide-react";
+import { Leaf, Mail } from "lucide-react";
 
 export function Footer() {
   const year = new Date().getFullYear();
@@ -74,11 +74,11 @@ export function Footer() {
             </p>
             <div className="space-y-3">
               <a
-                href="tel:+918447829877"
+                href="mailto:info@msveda.com"
                 className="flex items-center gap-3 text-white/60 hover:text-white transition-colors"
               >
-                <Phone className="w-4 h-4" />
-                <span className="text-sm">+91 8447829877</span>
+                <Mail className="w-4 h-4" />
+                <span className="text-sm">info@msveda.com</span>
               </a>
             </div>
           </div>
