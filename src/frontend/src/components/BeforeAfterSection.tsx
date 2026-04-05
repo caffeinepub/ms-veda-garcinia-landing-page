@@ -6,6 +6,7 @@ const transformations = [
     duration: "30 days",
     before: "68 kg",
     after: "60 kg",
+    extraImage: null,
   },
   {
     name: "Rahul M.",
@@ -14,6 +15,8 @@ const transformations = [
     duration: "6 weeks",
     before: "88 kg",
     after: "80 kg",
+    extraImage:
+      "/assets/chatgpt_image_apr_4_2026_05_36_27_pm-019d5bef-1de7-7209-a332-598393976e5c.png",
   },
   {
     name: "Anjali K.",
@@ -22,6 +25,8 @@ const transformations = [
     duration: "5 weeks",
     before: "72 kg",
     after: "66 kg",
+    extraImage:
+      "/assets/chatgpt_image_apr_5_2026_10_22_36_am-019d5bfd-a2c2-771e-8d80-b27b3142412c.png",
   },
 ];
 
@@ -61,53 +66,64 @@ export function BeforeAfterSection() {
         </div>
         <div className="grid md:grid-cols-3 gap-6 mb-10">
           {transformations.map((t) => (
-            <div
-              key={t.name}
-              className="rounded-2xl p-6 border border-white/10"
-              style={{ background: "oklch(0.22 0.04 155 / 0.8)" }}
-            >
-              <div className="flex justify-between items-center mb-4">
-                <div>
-                  <p className="text-white font-bold">{t.name}</p>
-                  <p className="text-white/50 text-xs">{t.location}</p>
+            <div key={t.name} className="flex flex-col">
+              {t.extraImage && (
+                <div className="rounded-2xl overflow-hidden mb-3 border border-white/10">
+                  <img
+                    src={t.extraImage}
+                    alt={`${t.name} transformation`}
+                    className="w-full object-cover"
+                    style={{ maxHeight: "220px" }}
+                  />
                 </div>
-                <span
-                  className="text-xs font-bold px-3 py-1 rounded-full"
-                  style={{
-                    background: "oklch(0.68 0.148 65 / 0.2)",
-                    color: "oklch(0.76 0.16 70)",
-                  }}
-                >
-                  {t.duration}
-                </span>
-              </div>
-              <div className="flex gap-4 mb-4">
-                <div
-                  className="flex-1 text-center py-3 rounded-xl"
-                  style={{ background: "oklch(0.55 0.18 30 / 0.2)" }}
-                >
-                  <p className="text-white/50 text-xs mb-1">Before</p>
-                  <p className="text-white font-bold">{t.before}</p>
-                </div>
-                <div className="flex items-center text-white/40 font-bold">
-                  →
-                </div>
-                <div
-                  className="flex-1 text-center py-3 rounded-xl"
-                  style={{ background: "oklch(0.52 0.115 140 / 0.25)" }}
-                >
-                  <p className="text-white/50 text-xs mb-1">After</p>
-                  <p
-                    className="font-bold"
-                    style={{ color: "oklch(0.78 0.12 140)" }}
+              )}
+              <div
+                className="rounded-2xl p-6 border border-white/10 flex-1"
+                style={{ background: "oklch(0.22 0.04 155 / 0.8)" }}
+              >
+                <div className="flex justify-between items-center mb-4">
+                  <div>
+                    <p className="text-white font-bold">{t.name}</p>
+                    <p className="text-white/50 text-xs">{t.location}</p>
+                  </div>
+                  <span
+                    className="text-xs font-bold px-3 py-1 rounded-full"
+                    style={{
+                      background: "oklch(0.68 0.148 65 / 0.2)",
+                      color: "oklch(0.76 0.16 70)",
+                    }}
                   >
-                    {t.after}
-                  </p>
+                    {t.duration}
+                  </span>
                 </div>
+                <div className="flex gap-4 mb-4">
+                  <div
+                    className="flex-1 text-center py-3 rounded-xl"
+                    style={{ background: "oklch(0.55 0.18 30 / 0.2)" }}
+                  >
+                    <p className="text-white/50 text-xs mb-1">Before</p>
+                    <p className="text-white font-bold">{t.before}</p>
+                  </div>
+                  <div className="flex items-center text-white/40 font-bold">
+                    →
+                  </div>
+                  <div
+                    className="flex-1 text-center py-3 rounded-xl"
+                    style={{ background: "oklch(0.52 0.115 140 / 0.25)" }}
+                  >
+                    <p className="text-white/50 text-xs mb-1">After</p>
+                    <p
+                      className="font-bold"
+                      style={{ color: "oklch(0.78 0.12 140)" }}
+                    >
+                      {t.after}
+                    </p>
+                  </div>
+                </div>
+                <p className="text-white font-semibold text-sm text-center">
+                  {t.result}
+                </p>
               </div>
-              <p className="text-white font-semibold text-sm text-center">
-                {t.result}
-              </p>
             </div>
           ))}
         </div>
