@@ -2,8 +2,8 @@ const transformations = [
   {
     name: "Priya S.",
     location: "Delhi",
-    result: "Lost 8kg in 30 days! 🔥",
-    duration: "30 days",
+    result: "Lost 8kg in 7 weeks! 🔥",
+    duration: "7 weeks",
     before: "68 kg",
     after: "60 kg",
     extraImage: null,
