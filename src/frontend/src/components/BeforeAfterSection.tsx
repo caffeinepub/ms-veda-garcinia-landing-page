@@ -17,7 +17,7 @@ const transformations = [
     before: "88 kg",
     after: "80 kg",
     extraImage:
-      "/assets/chatgpt_image_apr_4_2026_05_36_27_pm-019d5c1d-719b-7796-9698-38981adecfce.png",
+      "/assets/chatgpt_image_apr_5_2026_11_26_22_am-019d5c3e-e312-71cc-a4f1-3a6861f6f002.png",
   },
   {
     name: "Anjali K.",
