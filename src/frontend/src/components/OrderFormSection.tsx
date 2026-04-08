@@ -8,6 +8,9 @@ import { toast } from "sonner";
 const GOOGLE_SHEET_URL =
   "https://script.google.com/macros/s/AKfycbxPai-wTWBJU10QQVjrlyjxy_MeKbDdR954rv-R6XIywVSNF3MSnIA-1CbNv0v6r0t5_A/exec";
 
+// Declare fbq for TypeScript
+declare function fbq(event: string, eventName: string, params?: object): void;
+
 function generateOrderId(): string {
   const timestamp = Date.now().toString(36).toUpperCase();
   const random = Math.random().toString(36).substring(2, 6).toUpperCase();
@@ -75,6 +78,15 @@ export function OrderFormSection() {
         address: address.trim(),
       });
 
+      // Fire Meta Pixel Lead event on successful order submission
+      if (typeof fbq === "function") {
+        fbq("track", "Lead", {
+          content_name: "MS Veda Garcinia Cambogia Order",
+          currency: "INR",
+          value: 999,
+        });
+      }
+
       setOrderId(newOrderId);
       toast.success("Order placed successfully! 🎉", {
         description: `Order ID: #${newOrderId}`,
@@ -118,15 +130,9 @@ export function OrderFormSection() {
                 #{orderId}
               </p>
             </div>
-            <p className="text-white/60 text-sm mb-6">
-              📦 3-5 business days mein delivery ho jaayegi.
+            <p className="text-white/60 text-sm">
+              Thank You! Our Expert will contact you shortly...
             </p>
-            <a
-              href="tel:+918447829877"
-              className="inline-block btn-green py-3 px-8 rounded-full text-sm font-bold"
-            >
-              📞 Call Us for Updates
-            </a>
           </div>
         </div>
       </section>
